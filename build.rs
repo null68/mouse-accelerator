@@ -28,20 +28,15 @@ fn main() {
     // OUT_DIR:
     // target/debug/build/<package>/out
 
-    // Go up:
-    // out -> <package> -> build -> debug -> target
-    let target_dir = out_dir
-        .parent()
-        .unwrap()
+    // OUT_DIR: target/<profile>/build/<pkg>-<hash>/out
+    // out -> <pkg>-<hash> -> build -> <profile>
+    let profile_dir = out_dir
         .parent()
         .unwrap()
         .parent()
         .unwrap()
         .parent()
         .unwrap();
-
-    // Determine debug/release from OUT_DIR path.
-    let profile_dir = target_dir;
 
     // In a normal build:
     // target/debug/...  or target/release/...

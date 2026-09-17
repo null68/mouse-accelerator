@@ -50,6 +50,23 @@ Your executable will be here:
 target/release/mouse-accelerator.exe
 ```
 
+## 🎛️ Usage
+
+​```powershell
+mouse-accelerator.exe [--sens N] [--accel N] [--power N] [--cap N]
+​```
+
+Curve: `multiplier = sens + accel * speed^power`, capped at `cap`.
+
+| Flag      | Meaning               | Default |
+|-----------|-----------------------|---------|
+| `--sens`  | base sensitivity      | `1.0`   |
+| `--accel` | acceleration strength | `0.03`  |
+| `--power` | curve exponent        | `2.0`   |
+| `--cap`   | maximum multiplier    | `3.0`   |
+
+Run with no flags to use the defaults.
+
 ## 🗑️ Uninstall Interception
 
 Run as Administrator:

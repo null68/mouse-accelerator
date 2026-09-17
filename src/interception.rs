@@ -89,7 +89,7 @@ impl Interceptor {
         Ok(Self { context })
     }
 
-    pub fn run(&self) {
+    pub fn run(&self, params: &crate::accel::AccelParams) {
         let mut device;
         let mut stroke = MaybeUninit::<InterceptionStroke>::zeroed();
         while unsafe {
@@ -98,11 +98,12 @@ impl Interceptor {
         } > 0
         {
             // InterceptionMouseStroke &mstroke = *(InterceptionMouseStroke *) &stroke;
-            let mstroke: &InterceptionMouseStroke =
-                unsafe { &*(stroke.as_ptr() as *const InterceptionMouseStroke) };
+            let mstroke: &mut InterceptionMouseStroke =
+                unsafe { &mut *(stroke.as_mut_ptr() as *mut InterceptionMouseStroke) };
 
-            println!("x={}, y={}", mstroke.x, mstroke.y);
-
+            let (x, y) = crate::accel::apply(mstroke.x, mstroke.y, params);
+            mstroke.x = x;
+            mstroke.y = y;
             unsafe {
                 interception_send(self.context, device, stroke.as_ptr(), 1);
             }
